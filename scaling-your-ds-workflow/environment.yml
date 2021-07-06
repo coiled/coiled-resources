@@ -1,0 +1,25 @@
+name: data-science-at-scale
+channels:
+  - conda-forge
+dependencies:
+  - python=3.8
+  - bokeh>2.0.0
+  - coiled>0.0.42
+  - dask=2021.06.2
+  - distributed=2021.06.2
+  - dask-labextension>=2.0.0
+  - jupyterlab
+  - nodejs=14
+  - dask-ml
+  - numpy=1.21.0
+  - pandas
+  - pyarrow
+  - python-graphviz
+  - scikit-learn
+  - matplotlib
+  - nbserverproxy
+  - nomkl
+  - h5py
+  - requests
+  - pytables
+  - s3fs
