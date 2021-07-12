@@ -1,0 +1,9 @@
+channels:
+  - conda-forge
+dependencies:
+  - coiled
+  - dask=2021.5.1
+  - pytorch=1.8.0
+  - pytorch-cpu=1.6.0
+  - torchvision=0.9.0
+  - matplotlib=3.3.2
