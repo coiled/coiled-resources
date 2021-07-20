@@ -1,0 +1,26 @@
+name: pandas-dask
+channels:
+  - conda-forge
+dependencies:
+  - python=3.8
+  - pandas
+  - bokeh>2.0.0
+  - ipywidgets
+  - dask=2021.07.0
+  - distributed=2021.07.0
+  - jupyterlab
+  - nodejs=14
+  - matplotlib
+  - nbserverproxy
+  - nomkl
+  - h5py
+  - blosc
+  - lz4
+  - requests
+  - python-graphviz
+  - pyarrow
+  - s3fs
+  - pip
+  - pip:
+    - dask-labextension>=3.0.0
+    - coiled>=0.0.43
