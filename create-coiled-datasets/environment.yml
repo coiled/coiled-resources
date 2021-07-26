@@ -1,0 +1,16 @@
+name: create-coiled-datasets
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - pandas
+  - dask[complete]
+  - pyarrow
+  - jupyter
+  - ipykernel
+  - s3fs
+  - coiled
+  - python-blosc
+  - lz4
+
