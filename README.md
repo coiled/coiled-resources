@@ -1,2 +1,8 @@
 # coiled-resources
-Coiled resources! Including notebooks to accompany blog posts and videos.
+
+Notebooks used in blogs and videos and open source datasets.
+
+## Datasets
+
+TODO: Add info on datasets & how to access them.
+
