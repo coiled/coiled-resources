@@ -7,10 +7,12 @@ dependencies:
   - pandas
   - dask[complete]
   - pyarrow
-  - jupyter
+  - jupyter-lab
+  - dask-labextension
   - ipykernel
   - s3fs
   - coiled
   - python-blosc
   - lz4
+
 
