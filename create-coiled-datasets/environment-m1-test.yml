@@ -1,0 +1,15 @@
+name: create-coiled-datasets-m1-test
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.8.11
+  - pandas
+  - dask[complete]==2021.07.1
+  - pyarrow
+  - jupyterlab
+  - dask-labextension
+  - ipykernel
+  - s3fs
+  - coiled
+  - lz4
