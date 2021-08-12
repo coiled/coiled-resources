@@ -3,7 +3,7 @@ channels:
   - defaults
   - conda-forge
 dependencies:
-  - python=3.8.11
+  - python=3.9
   - pandas
   - dask[complete]==2021.07.1
   - pyarrow
@@ -13,3 +13,4 @@ dependencies:
   - s3fs
   - coiled
   - lz4
+  - numpy=1.21.1
