@@ -1,18 +1,17 @@
-name: create-coiled-datasets
+name: create-coiled-datasets-m1
 channels:
-  - conda-forge
   - defaults
+  - conda-forge
 dependencies:
   - python=3.9
   - pandas
-  - dask[complete]
+  - dask[complete]==2021.07.1
   - pyarrow
+  - fastparquet
   - jupyterlab
   - dask-labextension
   - ipykernel
   - s3fs
   - coiled
-  - python-blosc
   - lz4
-
-
+  - numpy=1.21.1
