@@ -7,6 +7,7 @@ dependencies:
   - pandas
   - dask[complete]==2021.07.1
   - pyarrow
+  - fastparquet
   - jupyterlab
   - dask-labextension
   - ipykernel
