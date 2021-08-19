@@ -158,7 +158,7 @@ num_workers = st.slider(
 )
 
 if st.button("Scale your cluster!"):
-    coiled.Cluster(name='coiled-streamlit').scale(num_workers)
+    coiled.Cluster(name='streamlit').scale(num_workers)
 
 
 # Option to shutdown cluster
