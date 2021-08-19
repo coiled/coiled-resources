@@ -115,7 +115,7 @@ st.subheader(
 st.write(
     '''
     Let's move on to doing some heavier lifting to really see Dask in action.
-    We'll try grouping a column and calculating a summary statistic for the tip amount.
+    Below, you can group by a column and calculate a summary statistic for the tip amount.
     \n Select a column to group by below and a summary statistic to calculate:
     '''
 )
@@ -157,7 +157,7 @@ st.subheader(
 
 st.write(
     '''
-    By default, your Coiled Cluster spins up with 10 workers.
+    We spun our Coiled Cluster up with 10 workers.
     You can scale this number up or down using the slider and button below.
     '''
 )
