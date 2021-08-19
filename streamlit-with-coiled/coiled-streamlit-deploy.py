@@ -186,6 +186,4 @@ st.write(
 )
 
 if st.button('Shutdown Cluster'):
-    with st.spinner("This functionality is disabled for this public example to ensure a smooth experience for all users."):
-        
-
+    st.write("This functionality is disabled for this public example to ensure a smooth experience for all users.")    
