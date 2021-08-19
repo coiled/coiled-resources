@@ -16,8 +16,10 @@ st.write(
     """
     The computations for this Streamlit app are powered by Coiled, which
     provides on-demand, hosted Dask clusters in the cloud. Change the options
-    below to view different visualizations of transportation pickups/dropoffs,
+    below to view different visualizations of NYC taxi pickups/dropoffs,
     then let Coiled handle all of the infrastructure and compute.
+
+    The dataset contains more than 145 million records of NYC taxi journeys in 2015. 
     """
 )
 
