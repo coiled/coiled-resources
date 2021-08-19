@@ -34,8 +34,8 @@ def get_client():
     dask.config.set({"coiled.token":st.secrets['token']})
     cluster = coiled.Cluster(
         n_workers=10,
-        name="coiled-streamlit",
-        software="coiled-examples/streamlit",
+        name="streamlit",
+        software="coiled-examples/streamlit-py38",
     )
     client = Client(cluster)
     return client
