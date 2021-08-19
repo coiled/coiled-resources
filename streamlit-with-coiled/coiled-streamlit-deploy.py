@@ -159,6 +159,7 @@ st.write(
     '''
     We spun our Coiled Cluster up with 10 workers.
     You can scale this number up or down using the slider and button below.
+    \n Note that scaling a cluster up takes a couple of minutes.
     '''
 )
 
