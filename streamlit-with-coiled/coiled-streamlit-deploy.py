@@ -24,9 +24,9 @@ st.write(
 st.subheader("About the Dataset")
 st.write(
     """
-    The dataset contains more than 145 million records of NYC taxi journeys in 2015. 
+    The dataset contains more than 145 million records (>10GB) of NYC taxi journeys in 2015. 
 
-    Change the options below to visualize the dataset on an interactive Folium map. 
+    Visualize locations of pick-ups and drop-offs below using an interactive Folium map. 
 
     """
 )
