@@ -41,7 +41,7 @@ num_passengers = st.slider("Number of passengers", 0, 9, (0, 9))
 cluster_state = st.empty()
 
 @st.cache(allow_output_mutation=True, hash_funcs={"_thread.RLock": lambda _: None})
-def get_client():
+def start_cluster():
     cluster_state.write("Starting or connecting to Coiled cluster...")
     dask.config.set({"coiled.token":st.secrets['token']})
     cluster = coiled.Cluster(
@@ -53,12 +53,12 @@ def get_client():
     return client
 
 
-client = get_client()
+client = start_cluster()
 if client.status == "closed":
     # In a long-running Streamlit app, the cluster could have shut down from idleness.
     # If so, clear the Streamlit cache to restart it.
     st.caching.clear_cache()
-    client = get_client()
+    client = start_cluster()
 cluster_state.write(f"Coiled cluster is up! ({client.dashboard_link})")
 
 # Load data (runs on Coiled)
