@@ -26,7 +26,7 @@ st.write(
     """
     The dataset contains more than 145 million records (>10GB) of NYC taxi journeys in 2015. 
 
-    Visualize locations of pick-ups and drop-offs below using an interactive Folium map. 
+    Visualize locations of the first 500 pick-ups and drop-offs below using an interactive Folium map. 
 
     """
 )
@@ -115,7 +115,7 @@ st.subheader(
 st.write(
     '''
     Let's move on to doing some heavier lifting to really see Dask in action.
-    Below, you can group by a column and calculate a summary statistic for the tip amount.
+    Below, you can group by a column and calculate a summary statistic for the tip amount. While the map above visualizes only the first 500 trips, this computation is done on the entire dataset containing more than 145 million rows.
     \n Select a column to group by below and a summary statistic to calculate:
     '''
 )
