@@ -50,6 +50,7 @@ def start_cluster():
         software="coiled-examples/streamlit",
     )
     client = Client(cluster)
+    client.wait_for_workers(5)
     return client
 
 
@@ -57,7 +58,7 @@ client = start_cluster()
 if client.status == "closed":
     # In a long-running Streamlit app, the cluster could have shut down from idleness.
     # If so, clear the Streamlit cache to restart it.
-    client.shutdown()
+    client.close()
     st.caching.clear_cache()
     client = start_cluster()
 cluster_state.write(f"Coiled cluster is up! ({client.dashboard_link})")
