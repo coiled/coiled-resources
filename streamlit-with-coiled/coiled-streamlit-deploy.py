@@ -47,7 +47,7 @@ def start_cluster():
     cluster = coiled.Cluster(
         n_workers=10,
         name="streamlit",
-        software="coiled-examples/streamlit-py38",
+        software="coiled-examples/streamlit",
     )
     client = Client(cluster)
     return client
