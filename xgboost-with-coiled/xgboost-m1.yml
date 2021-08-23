@@ -17,6 +17,6 @@ dependencies:
   - numpy=1.21.1
   - dask-ml
   - dask-cuda
-  - xgboost
+  - xgboost=1.2.0
   - ipython
   - ipywidgets
