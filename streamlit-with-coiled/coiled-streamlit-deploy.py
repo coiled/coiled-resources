@@ -42,12 +42,17 @@ num_passengers = st.slider("Number of passengers", 0, 9, (0, 9))
 # Start and connect to Coiled cluster
 cluster_state = st.empty()
 
-cluster_name = f"streamlit-{uuid4().hex[:5]}"
+
+@st.cache(ttl=1200)
+def generate_cluster_name():
+    cluster_name = f"streamlit-{uuid4().hex[:5]}"
+    return cluster_name
 
 #@st.cache(allow_output_mutation=True, hash_funcs={"_thread.RLock": lambda _: None})
 def start_cluster():
     cluster_state.write("Starting or connecting to Coiled cluster...")
     dask.config.set({"coiled.token":st.secrets['token']})
+    cluster_name = generate_cluster_name()
     cluster = coiled.Cluster(
         n_workers=10,
         name=cluster_name,
@@ -64,7 +69,7 @@ def attach_client():
     except Exception as error:
         logging.exception(error)
 
-client = attach_client()  #change name here
+client = attach_client()  #change name of this function
 
 if client.status == "closed" or not client:
     # In a long-running Streamlit app, the cluster could have shut down from idleness.
