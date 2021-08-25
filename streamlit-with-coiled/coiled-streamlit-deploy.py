@@ -5,6 +5,7 @@ import folium
 import streamlit as st
 import os
 import logging
+from uuid import uuid4
 from dask.distributed import Client
 from folium.plugins import HeatMap
 from streamlit_folium import folium_static
@@ -41,13 +42,15 @@ num_passengers = st.slider("Number of passengers", 0, 9, (0, 9))
 # Start and connect to Coiled cluster
 cluster_state = st.empty()
 
+cluster_name = f"streamlit-{uuid4().hex[:5]}"
+
 #@st.cache(allow_output_mutation=True, hash_funcs={"_thread.RLock": lambda _: None})
 def start_cluster():
     cluster_state.write("Starting or connecting to Coiled cluster...")
     dask.config.set({"coiled.token":st.secrets['token']})
     cluster = coiled.Cluster(
         n_workers=10,
-        name="streamlit",
+        name=cluster_name,
         software="coiled-examples/streamlit",
     )
     return cluster
