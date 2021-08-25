@@ -126,7 +126,10 @@ with st.spinner("Calculating map data..."):
 
     map_data.columns = ["lat", "lon"]
     map_data = map_data.loc[~(map_data == 0).all(axis=1)]
-    map_data = map_data.head(500)
+    try:
+        map_data = map_data.head(500)
+    except Exception:
+        st.write("An error occurred. Please try again in 30 seconds.") 
 
 # Display map in Streamlit
 st.subheader("Map of selected rides")
