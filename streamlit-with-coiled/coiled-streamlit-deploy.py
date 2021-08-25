@@ -71,7 +71,7 @@ def attach_client():
 
 client = attach_client()  #change name of this function
 
-if client.status == "closed" or not client:
+if not client or client.status == "closed":
     # In a long-running Streamlit app, the cluster could have shut down from idleness.
     # If so, clear the Streamlit cache to restart it.
     client.close()
