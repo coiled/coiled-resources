@@ -57,7 +57,8 @@ def attach_client():
     cluster = start_cluster()
     try:
         client = Client(cluster)
-        client.wait_for_workers(5)    
+        client.wait_for_workers(5)   
+        return client 
     except Exception as error:
         logging.exception(error)
         return False
