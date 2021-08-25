@@ -5,6 +5,7 @@ import folium
 import streamlit as st
 import os
 import logging
+import contextlib
 from uuid import uuid4
 from dask.distributed import Client
 from folium.plugins import HeatMap
@@ -71,10 +72,12 @@ def attach_client():
 
 client = attach_client()  #change name of this function
 
+
 if not client or client.status == "closed":
     # In a long-running Streamlit app, the cluster could have shut down from idleness.
     # If so, clear the Streamlit cache to restart it.
-    client.close()
+    with contextlib.suppress(AttributeError):
+        client.close()
     st.caching.clear_cache()
     client = attach_client()
 
