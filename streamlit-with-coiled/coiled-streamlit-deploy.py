@@ -1,16 +1,16 @@
+import contextlib
+import logging
+import os
+from uuid import uuid4
+
 import coiled
 import dask
 import dask.dataframe as dd
 import folium
 import streamlit as st
-import os
-import logging
-import contextlib
-from uuid import uuid4
 from dask.distributed import Client
 from folium.plugins import HeatMap
 from streamlit_folium import folium_static
-
 
 # Text in Streamlit
 st.header("Coiled and Streamlit")
@@ -48,10 +48,11 @@ def generate_cluster_name():
     cluster_name = f"streamlit-{uuid4().hex[:5]}"
     return cluster_name
 
+
 @st.cache(ttl=1200, allow_output_mutation=True, hash_funcs={"_thread.RLock": lambda _: None})
 def start_cluster():
     cluster_state.write("Starting or connecting to Coiled cluster...")
-    dask.config.set({"coiled.token":st.secrets['token']})
+    dask.config.set({"coiled.token": st.secrets['token']})
     cluster_name = generate_cluster_name()
     logging.info(cluster_name)
     try:
@@ -70,12 +71,13 @@ def attach_client():
     cluster = start_cluster()
     try:
         client = Client(cluster)
-        client.wait_for_workers(5)   
-        return client 
+        client.wait_for_workers(5)
+        return client
     except Exception as error:
         logging.exception(error)
 
-client = attach_client()  #change name of this function
+
+client = attach_client()  # change name of this function
 
 
 if not client or client.status == "closed":
@@ -89,7 +91,9 @@ if not client or client.status == "closed":
 cluster_state.write(f"Coiled cluster is up! ({client.dashboard_link})")
 
 # Load data (runs on Coiled)
-#@st.cache(hash_funcs={dd.DataFrame: dask.base.tokenize})
+# @st.cache(hash_funcs={dd.DataFrame: dask.base.tokenize})
+
+
 def load_data():
     df = dd.read_csv(
         "s3://nyc-tlc/trip data/yellow_tripdata_2015-*.csv",
@@ -112,8 +116,8 @@ def load_data():
 
 df = load_data()
 
-# Filter data based on inputs (runs on Coiled)
-with st.spinner("Calculating map data..."):
+
+def generate_heatmap(df):
     map_data = df[
         (df["passenger_count"] >= num_passengers[0])
         & (df["passenger_count"] <= num_passengers[1])
@@ -126,16 +130,22 @@ with st.spinner("Calculating map data..."):
 
     map_data.columns = ["lat", "lon"]
     map_data = map_data.loc[~(map_data == 0).all(axis=1)]
-    try:
-        map_data = map_data.head(500)
-    except Exception:
-        st.write("An error occurred. Please try again in 30 seconds.") 
+    map_data = map_data.head(500)
 
-# Display map in Streamlit
-st.subheader("Map of selected rides")
-m = folium.Map([40.76, -73.95], tiles="cartodbpositron", zoom_start=12)
-HeatMap(map_data).add_to(folium.FeatureGroup(name="Heat Map").add_to(m))
-folium_static(m)
+    # Display map in Streamlit
+    st.subheader("Map of selected rides")
+    m = folium.Map([40.76, -73.95], tiles="cartodbpositron", zoom_start=12)
+    HeatMap(map_data).add_to(folium.FeatureGroup(name="Heat Map").add_to(m))
+    folium_static(m)
+
+
+# Filter data based on inputs (runs on Coiled)
+with st.spinner("Calculating map data..."):
+    try:
+        generate_heatmap(df)
+    except Exception:
+        st.write("An error occurred. Please try again in 30 seconds.")
+
 
 # Performing a groupby
 st.subheader(
@@ -217,4 +227,4 @@ st.write(
 )
 
 if st.button('Shutdown Cluster'):
-    st.write("This functionality is disabled for this public example to ensure a smooth experience for all users.")    
+    st.write("This functionality is disabled for this public example to ensure a smooth experience for all users.")
