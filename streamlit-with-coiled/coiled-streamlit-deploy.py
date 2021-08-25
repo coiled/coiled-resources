@@ -49,7 +49,6 @@ def start_cluster():
         n_workers=10,
         name="streamlit",
         software="coiled-examples/streamlit",
-        scheduler_options={'idle_timeout':'1 minute'}
     )
     return cluster
 
@@ -61,11 +60,10 @@ def attach_client():
         return client 
     except Exception as error:
         logging.exception(error)
-        return False
 
 client = attach_client()  #change name here
 
-if client.status == "closed" or client == False:
+if client.status == "closed" or not client:
     # In a long-running Streamlit app, the cluster could have shut down from idleness.
     # If so, clear the Streamlit cache to restart it.
     client.close()
