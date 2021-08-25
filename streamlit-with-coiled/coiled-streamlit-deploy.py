@@ -4,6 +4,7 @@ import dask.dataframe as dd
 import folium
 import streamlit as st
 import os
+import logging
 from dask.distributed import Client
 from folium.plugins import HeatMap
 from streamlit_folium import folium_static
@@ -50,18 +51,26 @@ def start_cluster():
         software="coiled-examples/streamlit",
         scheduler_options={'idle_timeout':'1 minute'}
     )
-    client = Client(cluster)
-    client.wait_for_workers(5)
-    return client
+    return cluster
 
+def attach_client():
+    cluster = start_cluster()
+    try:
+        client = Client(cluster)
+        client.wait_for_workers(5)    
+    except Exception as error:
+        logging.exception(error)
+        return False
 
-client = start_cluster()
-if client.status == "closed":
+client = attach_client()  #change name here
+
+if client.status == "closed" or client == False:
     # In a long-running Streamlit app, the cluster could have shut down from idleness.
     # If so, clear the Streamlit cache to restart it.
     client.close()
     #st.caching.clear_cache()
-    client = start_cluster()
+    client = attach_client()
+
 cluster_state.write(f"Coiled cluster is up! ({client.dashboard_link})")
 
 # Load data (runs on Coiled)
