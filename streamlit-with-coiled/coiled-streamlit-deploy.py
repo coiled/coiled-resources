@@ -145,6 +145,7 @@ with st.spinner("Calculating map data..."):
         generate_heatmap(df)
     except Exception:
         st.write("An error occurred. Please try again in 30 seconds.")
+        attach_client()
 
 
 # Performing a groupby
