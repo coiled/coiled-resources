@@ -54,12 +54,17 @@ def start_cluster():
     dask.config.set({"coiled.token":st.secrets['token']})
     cluster_name = generate_cluster_name()
     logging.info(cluster_name)
-    cluster = coiled.Cluster(
-        n_workers=10,
-        name=cluster_name,
-        software="coiled-examples/streamlit",
-    )
-    return cluster
+    try:
+        cluster = coiled.Cluster(
+            n_workers=10,
+            name=cluster_name,
+            software="coiled-examples/streamlit",
+        )
+        logging.info(cluster)
+        return cluster
+    except Exception as error:
+        logging.exception(error)
+
 
 def attach_client():
     cluster = start_cluster()
