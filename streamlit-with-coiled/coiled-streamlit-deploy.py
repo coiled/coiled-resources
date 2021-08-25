@@ -48,6 +48,7 @@ def start_cluster():
         n_workers=10,
         name="streamlit",
         software="coiled-examples/streamlit",
+        scheduler_options={'idle_timeout':'1 minute'}
     )
     client = Client(cluster)
     client.wait_for_workers(5)
