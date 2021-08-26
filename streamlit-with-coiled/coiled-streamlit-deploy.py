@@ -53,7 +53,8 @@ def start_cluster():
 
 client = start_cluster() 
 
-cluster_state.write(f"Coiled cluster is up! \n Access the Dask Dashboard here: {client.dashboard_link}")
+cluster_state.write(
+    f"Your Coiled cluster is up! Click the link to access the Dask Dashboard: {client.dashboard_link}")
 
 #Load data (runs on Coiled)
 @st.cache(hash_funcs={dd.DataFrame: dask.base.tokenize})
