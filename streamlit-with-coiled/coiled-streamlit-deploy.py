@@ -59,7 +59,7 @@ def start_cluster():
         n_workers=10,
         name=streamlit-deployed,
         software="coiled-examples/streamlit",
-        scheduler_options={'idle_timeout':None},
+        scheduler_options={'idle_timeout':'10000hours'},
     )
 #    logging.info(cluster)
     client = Client(cluster)
