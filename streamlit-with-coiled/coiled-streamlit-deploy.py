@@ -43,24 +43,24 @@ num_passengers = st.slider("Number of passengers", 0, 9, (0, 9))
 cluster_state = st.empty()
 
 
-@st.cache(ttl=1200)
-def generate_cluster_name():
-    cluster_name = f"streamlit-{uuid4().hex[:5]}"
-    return cluster_name
+# @st.cache(ttl=1200)
+# def generate_cluster_name():
+#     cluster_name = f"streamlit-{uuid4().hex[:5]}"
+#     return cluster_name
 
 
-@st.cache(ttl=1200, allow_output_mutation=True, hash_funcs={"_thread.RLock": lambda _: None})
+@st.cache(allow_output_mutation=True, hash_funcs={"_thread.RLock": lambda _: None})
 def start_cluster():
     cluster_state.write("Starting or connecting to Coiled cluster...")
     dask.config.set({"coiled.token": st.secrets['token']})
-    cluster_name = generate_cluster_name()
-    logging.info(cluster_name)
+    # cluster_name = generate_cluster_name()
+    # logging.info(cluster_name)
     try:
         cluster = coiled.Cluster(
             n_workers=10,
-            name=cluster_name,
+            name=streamlit-deployed,
             software="coiled-examples/streamlit",
-            scheduler_options={'idle_timeout':'10000hours'},
+            scheduler_options={'idle_timeout':None},
         )
         logging.info(cluster)
         return cluster
@@ -91,10 +91,8 @@ if not client or client.status == "closed":
 
 cluster_state.write(f"Coiled cluster is up! ({client.dashboard_link})")
 
-# Load data (runs on Coiled)
-# @st.cache(hash_funcs={dd.DataFrame: dask.base.tokenize})
-
-
+Load data (runs on Coiled)
+@st.cache(hash_funcs={dd.DataFrame: dask.base.tokenize})
 def load_data():
     df = dd.read_csv(
         "s3://nyc-tlc/trip data/yellow_tripdata_2015-*.csv",
