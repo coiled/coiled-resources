@@ -61,7 +61,7 @@ def start_cluster():
         software="coiled-examples/streamlit",
         scheduler_options={'idle_timeout':None},
     )
-    logging.info(cluster)
+#    logging.info(cluster)
     client = Client(cluster)
     return client
 
