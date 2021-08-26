@@ -138,11 +138,7 @@ def generate_heatmap(df):
 
 # Filter data based on inputs (runs on Coiled)
 with st.spinner("Calculating map data..."):
-    try:
-        generate_heatmap(df)
-    except Exception:
-        st.write("An error occurred. Please try again in 30 seconds.")
-        start_cluster()
+    generate_heatmap(df)
 
 
 # Performing a groupby
