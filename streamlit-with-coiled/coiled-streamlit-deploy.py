@@ -170,7 +170,7 @@ st.subheader(
 )
 
 if st.button('Start Computation!'):
-    with st.spinner("Performing your groupby aggregation..."):
+    with st.spinner("Performing your groupby aggregation... \n If you'd like to see what your cluster is doing, click the Dask Dashboard link above the Folium map."):
         if aggregator == "Sum":
             st.write(
                 df.groupby(groupby_column).tip_amount.sum().compute()
