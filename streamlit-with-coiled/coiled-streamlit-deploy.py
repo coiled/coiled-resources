@@ -91,7 +91,7 @@ if not client or client.status == "closed":
 
 cluster_state.write(f"Coiled cluster is up! ({client.dashboard_link})")
 
-Load data (runs on Coiled)
+#Load data (runs on Coiled)
 @st.cache(hash_funcs={dd.DataFrame: dask.base.tokenize})
 def load_data():
     df = dd.read_csv(
