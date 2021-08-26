@@ -49,7 +49,7 @@ cluster_state = st.empty()
 #     return cluster_name
 
 
-#@st.cache(allow_output_mutation=True, hash_funcs={"_thread.RLock": lambda _: None})
+@st.cache(allow_output_mutation=True, hash_funcs={"_thread.RLock": lambda _: None})
 def start_cluster():
     cluster_state.write("Starting or connecting to Coiled cluster...")
     dask.config.set({"coiled.token": st.secrets['token']})
@@ -57,7 +57,7 @@ def start_cluster():
     # logging.info(cluster_name)
     cluster = coiled.Cluster(
         n_workers=10,
-        name=streamlit-deployed,
+        name='streamlit-deployed',
         software="coiled-examples/streamlit",
         scheduler_options={'idle_timeout':'10000hours'},
     )
