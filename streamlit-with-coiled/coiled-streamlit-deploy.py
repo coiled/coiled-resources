@@ -60,6 +60,7 @@ def start_cluster():
         name='streamlit-deployed',
         software="coiled-examples/streamlit",
         scheduler_options={'idle_timeout':'10000hours'},
+        shutdown_on_close=False,
     )
 #    logging.info(cluster)
     client = Client(cluster)
