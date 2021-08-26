@@ -42,19 +42,10 @@ num_passengers = st.slider("Number of passengers", 0, 9, (0, 9))
 # Start and connect to Coiled cluster
 cluster_state = st.empty()
 
-
-# @st.cache(ttl=1200)
-# def generate_cluster_name():
-#     cluster_name = f"streamlit-{uuid4().hex[:5]}"
-#     return cluster_name
-
-
 @st.cache(allow_output_mutation=True, hash_funcs={"_thread.RLock": lambda _: None})
 def start_cluster():
     cluster_state.write("Starting or connecting to Coiled cluster...")
     dask.config.set({"coiled.token": st.secrets['token']})
-    # cluster_name = generate_cluster_name()
-    # logging.info(cluster_name)
     cluster = coiled.Cluster(
         n_workers=10,
         name='streamlit-deployed',
@@ -62,30 +53,10 @@ def start_cluster():
         scheduler_options={'idle_timeout':None},
         shutdown_on_close=False,
     )
-#    logging.info(cluster)
     client = Client(cluster)
     return client
 
-# def attach_client():
-#     cluster = start_cluster()
-#     try:
-#         client = Client(cluster)
-#         client.wait_for_workers(5)
-#         return client
-#     except Exception as error:
-#         logging.exception(error)
-
-
 client = start_cluster() 
-
-
-# if not client or client.status == "closed":
-#     # In a long-running Streamlit app, the cluster could have shut down from idleness.
-#     # If so, clear the Streamlit cache to restart it.
-#     with contextlib.suppress(AttributeError):
-#         client.close()
-#     st.caching.clear_cache()
-#     client = attach_client()
 
 cluster_state.write(f"Coiled cluster is up! \n Access the Dask Dashboard here: {client.dashboard_link}")
 
