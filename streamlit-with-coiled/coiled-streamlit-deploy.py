@@ -49,7 +49,7 @@ cluster_state = st.empty()
 #     return cluster_name
 
 
-@st.cache(allow_output_mutation=True, hash_funcs={"_thread.RLock": lambda _: None})
+#@st.cache(allow_output_mutation=True, hash_funcs={"_thread.RLock": lambda _: None})
 def start_cluster():
     cluster_state.write("Starting or connecting to Coiled cluster...")
     dask.config.set({"coiled.token": st.secrets['token']})
