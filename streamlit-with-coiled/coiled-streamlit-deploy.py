@@ -7,7 +7,7 @@ from dask.distributed import Client
 from folium.plugins import HeatMap
 from streamlit_folium import folium_static
 
-# Text in Streamlit
+# Header and Intro Text in Streamlit
 st.header("Coiled and Streamlit")
 st.subheader("Analyzing Large Datasets with Coiled and Streamlit")
 st.write(
@@ -46,7 +46,7 @@ def start_cluster():
         name='streamlit-deployed',
         software="coiled-examples/streamlit",
         scheduler_options={'idle_timeout':None},
-        shutdown_on_close=False,
+        shutdown_on_close=False, #this public version of the app uses a single continuous cluster for smoothest user experience
     )
     client = Client(cluster)
     return client
@@ -81,6 +81,8 @@ def load_data():
 df = load_data()
 
 
+
+# Filter data based on inputs (runs on Coiled)
 def generate_heatmap(df):
     map_data = df[
         (df["passenger_count"] >= num_passengers[0])
@@ -102,8 +104,6 @@ def generate_heatmap(df):
     HeatMap(map_data).add_to(folium.FeatureGroup(name="Heat Map").add_to(m))
     folium_static(m)
 
-
-# Filter data based on inputs (runs on Coiled)
 with st.spinner("Calculating map data..."):
     generate_heatmap(df)
 
