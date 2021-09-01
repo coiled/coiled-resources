@@ -16,4 +16,5 @@ dependencies:
   - nb_conda
   - jupyterlab
   - dask-labextension
+  - fastparquet
 
