@@ -64,6 +64,9 @@ def start_cluster(flag):
 #     st.caching.clear_cache()
 #     client = attach_client()
 
+client = start_cluster(flag=st.session_state['cluster_state'])
+st.session_state['cluster_state'] = 1
+
 # check if client exists or is closed
 if not client or client.status == "closed":
     # if closed, set session_state flag to 0
