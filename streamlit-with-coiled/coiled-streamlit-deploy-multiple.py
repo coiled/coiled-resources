@@ -41,8 +41,7 @@ cluster_state = st.empty()
 if 'cluster_state' not in st.session_state:
     st.session_state['cluster_state'] = 0
 
-
-@st.cache(allow_output_mutation=True, hash_funcs={"_thread.RLock": lambda _: None})
+#@st.cache(allow_output_mutation=True, hash_funcs={"_thread.RLock": lambda _: None})
 def start_cluster(flag):
     cluster_state.write("Starting or connecting to Coiled cluster...")
     dask.config.set({"coiled.token": st.secrets['token']})
@@ -55,14 +54,6 @@ def start_cluster(flag):
     )
     client = Client(cluster)
     return client
-
-# if not client or client.status == "closed":
-#     # In a long-running Streamlit app, the cluster could have shut down from idleness.
-#     # If so, clear the Streamlit cache to restart it.
-#     with contextlib.suppress(AttributeError):
-#         client.close()
-#     st.caching.clear_cache()
-#     client = attach_client()
 
 client = start_cluster(flag=st.session_state['cluster_state'])
 st.session_state['cluster_state'] = 1
