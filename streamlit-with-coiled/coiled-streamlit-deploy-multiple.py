@@ -49,7 +49,7 @@ def start_cluster():
         n_workers=10,
         name='streamlit-deployed-test',
         software="coiled-examples/streamlit",
-        scheduler_options={'idle_timeout':'30minutes'},
+        scheduler_options={'idle_timeout':'5minutes'},
         shutdown_on_close=False, 
     )
     client = Client(cluster)
