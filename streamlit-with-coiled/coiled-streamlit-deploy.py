@@ -42,7 +42,7 @@ def start_cluster():
     dask.config.set({"coiled.token": st.secrets['token']})
     cluster = coiled.Cluster(
         n_workers=10,
-        name='streamlit-deployed-test',
+        name='streamlit-deployed',
         software="coiled-examples/streamlit",
         shutdown_on_close=False, 
     )
@@ -175,7 +175,7 @@ num_workers = st.slider(
 )
 
 if st.button("Scale your cluster!"):
-    coiled.Cluster(name='streamlit-deployed-test').scale(num_workers)
+    coiled.Cluster(name='streamlit-deployed').scale(num_workers)
 
 
 # Option to shutdown cluster
