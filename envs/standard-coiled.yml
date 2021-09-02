@@ -16,4 +16,6 @@ dependencies:
   - nb_conda
   - jupyterlab
   - dask-labextension
-
+  - jupyterlab_code_formatter
+  - isort
+  - black
