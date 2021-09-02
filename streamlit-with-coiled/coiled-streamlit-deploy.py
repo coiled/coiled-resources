@@ -37,21 +37,24 @@ num_passengers = st.slider("Number of passengers", 0, 9, (0, 9))
 # Start and connect to Coiled cluster
 cluster_state = st.empty()
 
-@st.cache(allow_output_mutation=True, hash_funcs={"_thread.RLock": lambda _: None})
 def start_cluster():
     cluster_state.write("Starting or connecting to Coiled cluster...")
     dask.config.set({"coiled.token": st.secrets['token']})
     cluster = coiled.Cluster(
         n_workers=10,
-        name='streamlit-deployed',
+        name='streamlit-deployed-test',
         software="coiled-examples/streamlit",
-        scheduler_options={'idle_timeout':None},
-        shutdown_on_close=False, #this public version of the app uses a single continuous cluster for smoothest user experience
+        shutdown_on_close=False, 
     )
     client = Client(cluster)
     return client
 
-client = start_cluster() 
+client = start_cluster()
+
+# check if client exists or is closed
+if not client or client.status == "closed":
+    client.close()
+    client = start_cluster()
 
 cluster_state.write(
     f"Your Coiled cluster is up! Click the link to access the Dask Dashboard: {client.dashboard_link}")
@@ -172,7 +175,7 @@ num_workers = st.slider(
 )
 
 if st.button("Scale your cluster!"):
-    coiled.Cluster(name='streamlit-deployed').scale(num_workers)
+    coiled.Cluster(name='streamlit-deployed-test').scale(num_workers)
 
 
 # Option to shutdown cluster
