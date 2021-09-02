@@ -37,11 +37,6 @@ num_passengers = st.slider("Number of passengers", 0, 9, (0, 9))
 # Start and connect to Coiled cluster
 cluster_state = st.empty()
 
-# Initialize Session State
-#if 'cluster_state' not in st.session_state:
-#    st.session_state['cluster_state'] = 0
-
-#@st.cache(allow_output_mutation=True, hash_funcs={"_thread.RLock": lambda _: None})
 def start_cluster():
     cluster_state.write("Starting or connecting to Coiled cluster...")
     dask.config.set({"coiled.token": st.secrets['token']})
@@ -56,18 +51,11 @@ def start_cluster():
     return client
 
 client = start_cluster()
-#st.session_state['cluster_state'] = 1
 
 # check if client exists or is closed
 if not client or client.status == "closed":
-    # if closed, set session_state flag to 0
-#    st.session_state['cluster_state'] = 0
-    # and close the client
     client.close()
-    # then restart a new client
     client = start_cluster()
-    # and set session_state flag to 1
-#    st.session_state['cluster_state'] = 1
 
 cluster_state.write(
     f"Your Coiled cluster is up! Click the link to access the Dask Dashboard: {client.dashboard_link}")
