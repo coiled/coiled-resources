@@ -51,7 +51,7 @@ def start_cluster():
 
 client = start_cluster()
 
-# check if client exists or is closed
+# check if client exists or is closed (to catch instances where previous client is shutting down)
 if not client or client.status == "closed":
     client.close()
     client = start_cluster()
