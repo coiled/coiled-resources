@@ -19,3 +19,5 @@ dependencies:
   - jupyterlab_code_formatter
   - isort
   - black
+  - nbconvert
+  - pandoc
