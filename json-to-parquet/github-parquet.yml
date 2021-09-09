@@ -14,7 +14,7 @@ dependencies:
   - ujson
   - s3fs
   - coiled==0.0.50
-  - numpy
+  - numpy==1.21.1
   - ipython
   - ipywidgets
   - lz4
