@@ -1,0 +1,20 @@
+name: etl
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.9
+  - pandas
+  - dask[complete]
+  - pyarrow
+  - fastparquet
+  - jupyterlab
+  - dask-labextension
+  - ipykernel
+  - ujson
+  - s3fs
+  - coiled==0.0.50
+  - numpy
+  - ipython
+  - ipywidgets
+  - lz4
