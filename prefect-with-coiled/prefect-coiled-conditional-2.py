@@ -1,6 +1,6 @@
 import datetime
 import coiled
-from distributed import Client
+from dask.distributed import Client, worker_client 
 import dask.bag as db
 import ujson
 
@@ -52,13 +52,14 @@ def create_list(start_date, end_date, format="%d-%m-%Y"):
 
 # EXTRACT
 # get data from Github api
-@task(max_retries=3, retry_delay=datetime.timedelta(seconds=5))
+@task(checkpoint=False)
 def get_github_data(filenames):
     '''
     Task to fetch JSON data from Github Archive project and filter out PushEvents.
 
     filenames: list of filenames created with create_list() task
     '''
+
     records = db.read_text(filenames).map(ujson.loads)
     push_events = records.filter(lambda record: record["type"] == "PushEvent")
     return push_events
@@ -66,7 +67,7 @@ def get_github_data(filenames):
 
 # TRANSFORM 
 # transform json into dataframe
-@task(max_retries=3, retry_delay=datetime.timedelta(seconds=5))
+@task(checkpoint=False)
 def to_dataframe(push_events):
     '''
     This task processes the nested json data into a flat, tabular format. 
@@ -95,7 +96,7 @@ def to_dataframe(push_events):
 # LOAD
 # write to parquet
 @task(max_retries=3, retry_delay=datetime.timedelta(seconds=5))
-def to_parquet(df, path="s3://coiled-datasets/prefect/conditional-test-smaller.parq"):
+def to_parquet(df, path="s3://coiled-datasets/prefect/conditional-test.parq"):
     '''
     This task writes the flattened dataframe of PushEvents to the specified path as a parquet file.
 
@@ -107,85 +108,69 @@ def to_parquet(df, path="s3://coiled-datasets/prefect/conditional-test-smaller.p
         compression='lz4'
     )
 
-@resource_manager
-class CoiledCluster:
-    """Create a temporary dask cluster.
+@task
+def determine_cluster_type(filenames):
+    if len(filenames) > 50:
+        return "coiled"
+    return "local"
 
-    Args:
-        - n_workers (int, optional): The number of workers to start.
-        - software: The Coiled software environment to use
-        - account: The Coiled account to launch the cluster in
-        - name: Name of the Coiled cluster
-    """
-    def __init__(self, n_workers=None, software=None, account=None, name=None):
+@resource_manager
+class DaskCluster:
+    def __init__(self, cluster_type="local", n_workers=None, software=None, account=None, name=None):
+        self.cluster_type = cluster_type
         self.n_workers = n_workers
         self.software = software 
         self.account = account
         self.name = name
 
     def setup(self):
-        """Create a temporary dask cluster, returning the `Client`"""
-        cluster = coiled.Cluster(
-            name = self.name,
-            software = self.software,
-            n_workers = self.n_workers,
-            account = self.account,
-        )
-        return Client(cluster)
-
+        if self.cluster_type == "local":
+            return Client(processes=False)
+        elif self.cluster_type == "coiled":
+            cluster = coiled.Cluster(
+                name = self.name,
+                software = self.software,
+                n_workers = self.n_workers,
+                account = self.account,
+            )
+            return Client(cluster)
+    
     def cleanup(self, client):
-        """Shutdown the temporary dask cluster"""
         client.close()
-
-
-@resource_manager
-class LocalDaskCluster:
-    """Create a temporary Local dask cluster.
-
-    Args:
-        - n_workers (int, optional): The number of workers to start.
-    """
-    def __init__(self, n_workers=None):
-        self.n_workers = n_workers
-
-    def setup(self):
-        """Create a temporary dask cluster, returning the `Client`"""
-        client = Client(processes=False)
-        return client
-
-    def cleanup(self, client):
-        """Shutdown the temporary dask cluster"""
-        client.close()
-
-@task
-def check_size(filenames):
-    return len(filenames) < 50
+        if self.cluster_type == "coiled":
+            client.cluster.close()
 
 
 # Build Prefect Flow
 with Flow(name="Github ETL Test") as flow:
-    filenames = create_list(start_date="01-01-2015", end_date="02-01-2015")
-    check = check_size(filenames)
-
-    n_workers = Parameter("n_workers", default=10)
+    # define parameters
+    n_workers = Parameter("n_workers", default=4)
     software = Parameter("software", default='coiled-examples/prefect')
     account = Parameter("account", default=None)
-    name = Parameter("name", default='prefect-conditional')
+    name = Parameter("name", default='cluster-name')
+    start_date = Parameter("start_date", default="01-01-2015")
+    end_date = Parameter("end_date", default="31-12-2015")
+
+    # build flow
+    filenames = create_list(start_date=start_date, end_date=end_date)
+    cluster_type = determine_cluster_type(filenames)
     
-    with case(check, True):
-        with LocalDaskCluster(n_workers=8) as client:
-            push_events = get_github_data(filenames)
-            df = to_dataframe(push_events)
-            to_parquet(df)
+    with DaskCluster(
+            cluster_type=cluster_type,
+            n_workers=n_workers,
+            software=software,
+            account=account,
+            name=name
+            ) as client:
+        push_events = get_github_data(filenames)
+        df = to_dataframe(push_events)
+        to_parquet(df)
 
-    with case(check, False):
-         with CoiledCluster(
-             n_workers=n_workers, 
-             software=software, 
-             account=account,
-             name=name) as client:
-            push_events = get_github_data(filenames)
-            df = to_dataframe(push_events)
-            to_parquet(df)
 
-flow.run()
+# Run flow with parameters
+flow.run(
+    parameters=dict(
+        end_date="02-01-2015",
+        n_workers=15,
+        name="prefect-on-coiled")
+)
