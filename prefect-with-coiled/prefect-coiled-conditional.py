@@ -7,29 +7,6 @@ import ujson
 from prefect import task, Flow, resource_manager, Task, case, Parameter
 
 
-# #SET-UP
-# #spin up cluster function
-# @task(max_retries=3, retry_delay=datetime.timedelta(seconds=5))
-# def start_cluster(filenames, cc_name="prefect", cc_software="coiled-examples/prefect", cc_n_workers=10):
-#     '''
-#     This task spins up a Coiled cluster and connects it to the Dask client.
-
-#     filenames: list of filenames created by create_list()
-#     cc_name: name of the Coiled cluster, defaults to "prefect"
-#     cc_software: Coiled software environment to install on all workers, defaults to "coiled-examples/prefect"
-#     cc_n_workers: number of Dask workers in the Coiled cluster, defaults to 10
-#     '''
-#     if len(filenames) < 50:
-#         return Client(processes=False)
-
-#     else:
-#         cluster = coiled.Cluster(
-#             name=cc_name,
-#             software=cc_software,
-#             n_workers=cc_n_workers,
-#             )
-#         return Client(cluster)
-
 # create list of filenames to fetch
 @task(max_retries=3, retry_delay=datetime.timedelta(seconds=5))
 def create_list(start_date, end_date, format="%d-%m-%Y"):
