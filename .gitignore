@@ -129,3 +129,5 @@ dmypy.json
 .pyre/
 .DS_Store
 *.dirlock
+prefect-with-coiled/dask-worker-space/purge.lock
+prefect-with-coiled/dask-worker-space/global.lock
