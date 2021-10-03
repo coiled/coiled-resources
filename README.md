@@ -22,7 +22,7 @@ You can follow the [Coiled getting started](https://docs.coiled.io/user_guide/ge
 
 Some notebooks in this repo require conda environments with additional customization.  You can find `environment.yml` files to build those environments in the respective directories.
 
-## Datasets
+## coiled-datasets
 
 Coiled hosts several public datasets in AWS S3 that you can easily query when experimenting with Dask.
 
@@ -37,6 +37,27 @@ ddf = dd.read_parquet(
 ```
 
 These easily accessible datasets make it a lot easier for you to run Dask analyses and perform benchmarking analyses.
+
+Here are some key facts on the datasets:
+
+### timeseries
+
+The timeseries datasets are created with `dask.datasets.timeseries` and have the following schema:
+
+```
+id        int64
+name     object
+x       float64
+y       float64
+```
+
+#### timeseries/20-years/parquet
+
+* Description: Data from 2000 to 2021 with one row every second
+* Uncompressed size: 58.2
+* Compressed size: 16.7
+* Number files: 1,097
+* Number rows: 662,256,000
 
 ## Contributing
 
