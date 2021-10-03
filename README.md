@@ -54,8 +54,8 @@ y       float64
 #### timeseries/20-years/parquet
 
 * Description: Data from 2000 to 2021 with one row every second
-* Uncompressed size: 58.2
-* Compressed size: 16.7
+* Uncompressed size: 58.2 GB
+* Compressed size: 16.7 GB
 * Number files: 1,097
 * Number rows: 662,256,000
 
