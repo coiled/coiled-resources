@@ -59,6 +59,18 @@ y       float64
 * Number files: 1,097
 * Number rows: 662,256,000
 
+#### dea-opioid
+
+* Description: Arcos Opioid Sales Dataset as released by the Washington Post. 
+* Source: https://www.washingtonpost.com/national/2019/07/18/how-download-use-dea-pain-pills-database/)
+* Downloaded on: September 20, 2021
+* Dataset description and metadata: https://github.com/wpinvestigative/arcos-api/
+* Note: The original dataset is stored in .tsv format. This dataset has been preprocessed into the more efficient Parquet file format.
+* Uncompressed size (tsv): 74.5GB
+* Compressed size (parquet): 7.9 GB
+* Number files: 3,752
+* Number rows: 178,598,026
+
 ## Contributing
 
 We welcome community contributions, especially [MCVE](https://matthewrocklin.com/blog/work/2018/02/28/minimal-bug-reports) analyses that others will find useful.
