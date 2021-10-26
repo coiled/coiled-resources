@@ -1,0 +1,23 @@
+name: hyperparameter-tuning
+channels:
+  - conda-forge
+dependencies:
+  - coiled
+  - dask-ml
+  - dask>=2.23.0
+  - dask-labextension
+  - distributed>=2.23.0
+  - fastparquet
+  - ipywidgets
+  - joblib
+  - jupyterlab
+  - matplotlib
+  - numpy
+  - optuna<2.4.0
+  - pandas>=1.1.0
+  - pip
+  - pip:
+    - dask-optuna
+  - s3fs
+  - scikit-learn
+  - xgboost
