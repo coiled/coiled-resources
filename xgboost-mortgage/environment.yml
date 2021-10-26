@@ -6,6 +6,7 @@ dependencies:
   - dask-ml
   - dask>=2.23.0
   - dask-labextension
+  - dask-xgboost
   - distributed>=2.23.0
   - fastparquet
   - ipywidgets
