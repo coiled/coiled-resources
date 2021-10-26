@@ -6,13 +6,15 @@ dependencies:
   - dask-ml
   - dask>=2.23.0
   - dask-labextension
+  - distributed>=2.23.0
   - fastparquet
+  - ipywidgets
+  - jupyterlab
   - matplotlib
   - pandas>=1.1.0
-  - python-snappy
-  - seaborn
-  - s3fs
-  - scikit-learn
   - pip
   - pip:
     - fastdtw
+  - seaborn
+  - s3fs
+  - scikit-learn
