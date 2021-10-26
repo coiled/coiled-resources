@@ -1,0 +1,18 @@
+name: energy-landscape
+channels:
+  - conda-forge
+dependencies:
+  - coiled
+  - dask-ml
+  - dask>=2.23.0
+  - dask-labextension
+  - fastparquet
+  - matplotlib
+  - pandas>=1.1.0
+  - python-snappy
+  - seaborn
+  - s3fs
+  - scikit-learn
+  - pip
+  - pip:
+    - fastdtw
