@@ -131,3 +131,4 @@ dmypy.json
 *.dirlock
 prefect-with-coiled/dask-worker-space/purge.lock
 prefect-with-coiled/dask-worker-space/global.lock
+*.lock
