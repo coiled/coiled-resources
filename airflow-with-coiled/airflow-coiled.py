@@ -61,6 +61,9 @@ def airflow_on_coiled():
 
         # Compute result number of entries (PushEvents) per user
         result = ddf.user.value_counts().compute()
+        
+        # Shutdown Coiled cluster
+        cluster.close()
         return result
 
     # define subsequent Airflow tasks without a Coiled cluster
@@ -114,4 +117,4 @@ def airflow_on_coiled():
     visualize(series, sum_stats)
 
 # Call taskflow
-demo = airflow_on_coiled()
+airflow_on_coiled()
