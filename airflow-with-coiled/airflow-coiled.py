@@ -47,7 +47,7 @@ def airflow_on_coiled():
         cluster = coiled.Cluster(
             n_workers=20, 
             name="airflow-task",
-            software="coiled/default-py39",
+            software="rrpelgrim/airflow",
         )
         client = Client(cluster)
         print("Dashboard:", client.dashboard_link)
