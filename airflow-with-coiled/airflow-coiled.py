@@ -3,6 +3,8 @@ from time import sleep
 import coiled
 from dask.distributed import Client
 import dask.dataframe as dd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 from airflow.decorators import dag, task
 
@@ -17,6 +19,8 @@ default_args = {
     'retry_delay': timedelta(minutes=5),
 }
 
+storage_directory = "s3://coiled-datasets/airflow/"
+
 # define DAG as a function with the @dag decorator
 @dag(
     default_args=default_args,
@@ -25,57 +29,88 @@ default_args = {
     catchup=False,
     tags=['coiled-demo'],
     )
-def coiled_airflow_task():
+def airflow_on_coiled():
     """
-    A workflow that launches a Coiled cluster from within an Airflow task.
+    A workflow that demonstrates launching a Coiled cluster from within an Airflow task.
+    The first "transform" task runs on Coiled, the rest run locally.
     """
     
     # define Airflow task that runs a computation on a Coiled cluster
     @task()
     def transform():
         """
-        Running a groupby on a large CSV using Coiled.
+        Perform heavy computation on a large-scale dataset (~70GB) on a Coiled cluster.
+        Provisioning cluster resources takes ~2 minutes.
+        Returns a local pandas Series containing the number of entries (PushEvents) per user.
         """
         # Create and connect to Coiled cluster
         cluster = coiled.Cluster(
-            n_workers=10, 
+            n_workers=20, 
             name="airflow-task",
         )
         client = Client(cluster)
         print("Dashboard:", client.dashboard_link)
 
         # Read CSV data from S3
-        df = dd.read_csv(
-            "s3://nyc-tlc/trip data/yellow_tripdata_2019-*.csv",
-            dtype={
-                "payment_type": "UInt8",
-                "VendorID": "UInt8",
-                "passenger_count": "UInt8",
-                "RatecodeID": "UInt8",
-            },
-            storage_options={"anon": True},
+        ddf = dd.read_parquet(
+            's3://coiled-datasets/github-archive/github-archive-2015.parq/',
+            storage_options={"anon": True, 'use_ssl': True},
             blocksize="16 MiB",
-        ).persist()
+        )
 
-        # Compute result
-        result = df.groupby("passenger_count").tip_amount.mean().compute()
+        # Compute result number of entries (PushEvents) per user
+        result = ddf.user.value_counts().compute()
         return result
 
-    # define an Airflow task without a Coiled cluster
+    # define subsequent Airflow tasks without a Coiled cluster
     @task()
-    def clean(series):
+    def summarize(series):
         """
-        Airflow task without Coiled.
+        Calculate summary statistics over the pandas Series of interest and save to CSV.
+        Runs without Coiled.
         """
-        # Filter for 2 or more passengers
-        series = series[series.index > 0]
-        # Round tip amount to 2 decimal places
-        series = round(series, 2)
-        return series
+        # Get summary statistics
+        sum_stats = series.describe()
+        # Save to CSV
+        sum_stats.to_csv(f'{storage_directory}usercounts_summary_statistics.csv')
+        return sum_stats
 
-    # call task functions in order
+    @task()
+    def get_top_users(series):
+        """
+        Get user and author names of top 100 most active users and save to CSV.
+        Runs without Coiled.
+        """
+        # Get top 100 most active users
+        top_100 = series.head(100)
+
+        # Store user + number of events to CSV
+        top_100.to_csv(f'{storage_directory}top_100_users.csv')
+        return top_100
+
+    
+    @task()
+    def visualize(series, sum_stats):
+        """
+        Create visualisation plots and save as PNGs.
+        Runs without Coiled.
+        """
+        # Create boxplot for users within 75, 90, 95, 99, and 99.9% quantiles
+        for i in [0.75, 0.90, 0.95, 0.99, 0.999]:
+            quantile = i
+            fig, ax = plt.subplots(figsize=(10,10)) 
+            plt.title(f'# of Push Events per User for Users within {quantile*100}% Quantile', fontsize=15)
+            sns.boxplot(
+                data=series[series < series.quantile(quantile)],
+            )
+            plt.axhline(sum_stats['mean'], c='red', label='overall mean')
+            plt.savefig(f'boxplot_{quantile*100}quantile.png')
+
+    # Call task functions in order
     series = transform()
-    cleaned = clean(series)
+    sum_stats = summarize(series)
+    top_100 = get_top_users(series)
+    visualize(series, sum_stats)
 
-# call taskflow
-demo_taskflow = coiled_airflow_task()
+# Call taskflow
+demo = airflow_on_coiled()
