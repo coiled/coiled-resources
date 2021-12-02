@@ -18,3 +18,5 @@ dependencies:
   - numpy=1.21.4
   - ipython
   - ipywidgets
+  - matplotlib
+  - seaborn
