@@ -48,6 +48,7 @@ def airflow_on_coiled():
             n_workers=20, 
             name="airflow-task",
             software="rrpelgrim/airflow",
+            backend_options={'spot': 'True'},
         )
         client = Client(cluster)
         print("Dashboard:", client.dashboard_link)
@@ -57,6 +58,7 @@ def airflow_on_coiled():
             's3://coiled-datasets/github-archive/github-archive-2015.parq/',
             storage_options={"anon": True, 'use_ssl': True},
             blocksize="16 MiB",
+            engine='fastparquet',
         )
 
         # Compute result number of entries (PushEvents) per user
