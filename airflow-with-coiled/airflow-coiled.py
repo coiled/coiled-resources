@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from time import sleep
 import coiled
+import dask
 from dask.distributed import Client
 import dask.dataframe as dd
 import matplotlib.pyplot as plt
@@ -43,29 +44,34 @@ def airflow_on_coiled():
         Provisioning cluster resources takes ~2 minutes.
         Returns a local pandas Series containing the number of entries (PushEvents) per user.
         """
-        # Create and connect to Coiled cluster using the default software environment
-        cluster = coiled.Cluster(
-            n_workers=20, 
-            name="airflow-task",
-            software="rrpelgrim/airflow",
-            backend_options={'spot': 'True'},
-        )
-        client = Client(cluster)
-        print("Dashboard:", client.dashboard_link)
-
-        # Read CSV data from S3
-        ddf = dd.read_parquet(
-            's3://coiled-datasets/github-archive/github-archive-2015.parq/',
-            storage_options={"anon": True, 'use_ssl': True},
-            blocksize="16 MiB",
-            engine='fastparquet',
-        )
-
-        # Compute result number of entries (PushEvents) per user
-        result = ddf.user.value_counts().compute()
         
-        # Shutdown Coiled cluster
-        cluster.close()
+        # set Dask configs
+        with dask.config.set({'distributed.comm.compression':'lz4'}):
+
+            # Create and connect to Coiled cluster using the default software environment
+            cluster = coiled.Cluster(
+                n_workers=20, 
+                name="airflow-task",
+                software="rrpelgrim/airflow",
+                backend_options={'spot': 'True'},
+            )
+            client = Client(cluster)
+            print("Dashboard:", client.dashboard_link)
+
+            # Read CSV data from S3
+            ddf = dd.read_parquet(
+                's3://coiled-datasets/github-archive/github-archive-2015.parq/',
+                storage_options={"anon": True, 'use_ssl': True},
+                blocksize="16 MiB",
+                engine='fastparquet',
+                compression='lz4',
+            )
+
+            # Compute result number of entries (PushEvents) per user
+            result = ddf.user.value_counts().compute()
+            
+            # Shutdown Coiled cluster
+            cluster.close()
         return result
 
     # define subsequent Airflow tasks without a Coiled cluster
@@ -119,4 +125,4 @@ def airflow_on_coiled():
     visualize(series, sum_stats)
 
 # Call taskflow
-airflow_on_coiled()
+demo = airflow_on_coiled()
