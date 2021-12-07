@@ -20,7 +20,7 @@ default_args = {
     'retry_delay': timedelta(minutes=5),
 }
 
-storage_directory = "s3://coiled-datasets/airflow/"
+storage_directory = ""
 
 # define DAG as a function with the @dag decorator
 @dag(
@@ -45,33 +45,30 @@ def airflow_on_coiled():
         Returns a local pandas Series containing the number of entries (PushEvents) per user.
         """
         
-        # set Dask configs
-        with dask.config.set({'distributed.comm.compression':'lz4'}):
+        # Create and connect to Coiled cluster using the default software environment
+        cluster = coiled.Cluster(
+            n_workers=20, 
+            name="airflow-task",
+            software="rrpelgrim/airflow",
+            backend_options={'spot': 'True'},
+        )
+        client = Client(cluster)
+        print("Dashboard:", client.dashboard_link)
 
-            # Create and connect to Coiled cluster using the default software environment
-            cluster = coiled.Cluster(
-                n_workers=20, 
-                name="airflow-task",
-                software="rrpelgrim/airflow",
-                backend_options={'spot': 'True'},
-            )
-            client = Client(cluster)
-            print("Dashboard:", client.dashboard_link)
+        # Read CSV data from S3
+        ddf = dd.read_parquet(
+            's3://coiled-datasets/github-archive/github-archive-2015.parq/',
+            storage_options={"anon": True, 'use_ssl': True},
+            blocksize="16 MiB",
+            engine='fastparquet',
+            compression='lz4',
+        )
 
-            # Read CSV data from S3
-            ddf = dd.read_parquet(
-                's3://coiled-datasets/github-archive/github-archive-2015.parq/',
-                storage_options={"anon": True, 'use_ssl': True},
-                blocksize="16 MiB",
-                engine='fastparquet',
-                compression='lz4',
-            )
-
-            # Compute result number of entries (PushEvents) per user
-            result = ddf.user.value_counts().compute()
-            
-            # Shutdown Coiled cluster
-            cluster.close()
+        # Compute result number of entries (PushEvents) per user
+        result = ddf.user.value_counts().compute()
+        
+        # Shutdown Coiled cluster
+        cluster.close()
         return result
 
     # define subsequent Airflow tasks without a Coiled cluster
