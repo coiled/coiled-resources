@@ -102,7 +102,7 @@ def train_xgboost():
         return subset
 
     @task()
-    def train_test_split(subset_clean):
+    def create_train_test_split(subset_clean):
         '''
         This task creates the train and test splits.
         subset_clean: output of preprocess() task.
@@ -122,9 +122,10 @@ def train_xgboost():
         # Create the XGBoost DMatrix for our training and testing splits
         dtrain = xgb.dask.DaskDMatrix(client, X_train, y_train)
         dtest = xgb.dask.DaskDMatrix(client, X_test, y_test)
+        return dtrain, dtest
 
     @task()
-    def train_xgboost(dtrain, dtest)
+    def train_xgboost(dtrain, dtest):
         '''
         This task trains XGboost with the provided parameters.
         '''
@@ -144,8 +145,8 @@ def train_xgboost():
             evals=[(dtrain, 'train')]
         )
 
-        # save model
-        ...
+        # # save model
+        # ...
 
         return output
 
@@ -160,23 +161,27 @@ def train_xgboost():
         # make predictions
         y_pred = xgb.dask.predict(client, output, dtest)
 
-        # store predictions
-        ...
+        # # store predictions
+        # ...
 
         # evaluate predictions
         mae = mean_absolute_error(y_test, y_pred)
         print(f"Mean Absolute Error: {mae}")
+        return y_pred
 
 
 
     
 
     # Call task functions in order
-    start_date = "01-01-2015"
-    end_date = "31-12-2015"
-    files_to_fetch = create_list(start_date, end_date)
-    dataframe = transform_github_data(files_to_fetch)
-    n_events = count_push_events(dataframe)
+    client = create_client(n_workers=8)
+    subset = load_data()
+    subset_clean = preprocess(subset)
+    X_train, X_test, y_train, y_test = create_train_test_split(subset_clean)
+    dtrain, dtest = create_DaskDMatrices(X_train, X_test, y_train, y_test)
+    output = train_xgboost(dtrain, dtest)
+    y_pred = predict(client, output, dtest)
+
 
 # Call taskflow
 demo = train_xgboost()
