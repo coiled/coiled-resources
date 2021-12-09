@@ -24,10 +24,6 @@ default_args = {
 # define path where we'll store the Parquet file
 path = "s3://coiled-datasets/airflow/github_json.parquet"
 
-# authenticate with S3
-session = boto3.Session(profile_name='default')
-s3_client = session.client('s3')
-
 # define DAG as a function with the @dag decorator
 @dag(
     default_args=default_args,
@@ -67,6 +63,10 @@ def json_to_parquet():
         filenames: list of filenames created with create_list() task
         '''
 
+        # authenticate with S3
+        session = boto3.Session(profile_name='default')
+        s3_client = session.client('s3')
+        
         # Create and connect to Coiled cluster
         cluster = coiled.Cluster(
             n_workers=20, 
