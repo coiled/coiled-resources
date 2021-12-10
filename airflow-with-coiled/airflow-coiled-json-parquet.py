@@ -6,7 +6,6 @@ from dask.distributed import Client
 import dask.dataframe as dd
 import dask.bag as db
 import ujson
-import boto3
 
 from airflow.decorators import dag, task
 
@@ -23,6 +22,7 @@ default_args = {
 
 # define path where we'll store the Parquet file
 path = "s3://coiled-datasets/airflow/github_json.parquet"
+
 
 # define DAG as a function with the @dag decorator
 @dag(
@@ -63,10 +63,6 @@ def json_to_parquet():
         filenames: list of filenames created with create_list() task
         '''
 
-        # authenticate with S3
-        session = boto3.Session(profile_name='default')
-        s3_client = session.client('s3')
-        
         # Create and connect to Coiled cluster
         cluster = coiled.Cluster(
             n_workers=20, 
