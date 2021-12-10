@@ -95,30 +95,11 @@ def airflow_on_coiled():
         top_100.to_csv(f'{storage_directory}top_100_users.csv')
         return top_100
 
-    
-    @task()
-    def visualize(series, sum_stats):
-        """
-        Create visualisation plots and save as PNGs.
-        Runs without Coiled.
-        """
-        # Create boxplot for users within 75, 90, 95, 99, and 99.9% quantiles
-        for i in [0.75, 0.90, 0.95, 0.99, 0.999]:
-            quantile = i
-            fig, ax = plt.subplots(figsize=(10,10)) 
-            plt.title(f'# of Push Events per User for Users within {quantile*100}% Quantile', fontsize=15)
-            plt.boxplot(x=user_counts[user_counts < user_counts.quantile(0.999)])       
-            plt.axhline(sum_stats['mean'], c='red', label='overall mean')
-            plt.savefig(f'boxplot_{quantile*100}quantile.png')
-            plt.close(fig)
-
-        print('Visualisations have been created.')
 
     # Call task functions in order
     series = transform()
     stats = summarize(series)
     top_100 = get_top_users(series)
-    viz = visualize(series, stats)
 
 # Call taskflow
-demo = airflow_on_coiled()
+run = airflow_on_coiled()
