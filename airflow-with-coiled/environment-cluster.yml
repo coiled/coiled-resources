@@ -1,0 +1,19 @@
+name: airflow
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python==3.9
+  - pandas
+  - dask[complete]=2021.11.1
+  - pyarrow
+  - fastparquet
+  - jupyterlab
+  - dask-labextension
+  - ipykernel
+  - s3fs
+  - lz4=3.1.10
+  - numpy=1.21.4
+  - ipython
+  - ipywidgets
+  - ujson
