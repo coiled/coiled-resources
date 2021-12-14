@@ -11,8 +11,7 @@ from airflow.decorators import dag, task
 
 # set default arguments to all tasks
 default_args = {
-    'owner': 'rpelgrim',
-    'email': 'rpelgrim@coiled.io',
+    'owner': 'user',
     'depends_on_past': False,
     'email_on_failure': False,
     'email_on_retry': False,
@@ -21,7 +20,7 @@ default_args = {
 }
 
 # define path where we'll store any exported files
-path = ""
+path = "<path/to/directory>"
 
 
 # define DAG as a function with the @dag decorator
