@@ -6,13 +6,13 @@ from dask.distributed import Client
 import dask.dataframe as dd
 import dask.bag as db
 import ujson
+import boto3
 
 from airflow.decorators import dag, task
 
 # set default arguments to all tasks
 default_args = {
-    'owner': 'rpelgrim',
-    'email': 'rpelgrim@coiled.io',
+    'owner': 'user',
     'depends_on_past': False,
     'email_on_failure': False,
     'email_on_retry': False,
@@ -20,8 +20,8 @@ default_args = {
     'retry_delay': timedelta(minutes=5),
 }
 
-# define path where we'll store the Parquet file
-path = "s3://coiled-datasets/airflow/github_json.parquet"
+# define path to S3 bucket where we'll store the Parquet file
+path = "<s3://bucket/filename.parquet>"
 
 
 # define DAG as a function with the @dag decorator
@@ -66,7 +66,7 @@ def json_to_parquet():
         # Create and connect to Coiled cluster
         cluster = coiled.Cluster(
             n_workers=20, 
-            name="airflow-task-json-parquet",
+            name="airflow-json",
             software="coiled-examples/airflow",
             backend_options={'spot': 'True'},
         )
@@ -94,24 +94,21 @@ def json_to_parquet():
         df.to_parquet(
             path,
             engine='fastparquet',
-            compression='lz4'
+            compression='lz4',
+            storage_options={
+                "key":'<aws_access_key>', 
+                "secret":'<aws_secret_key>'
+            }
         )
         cluster.close()
         return df
 
-    # Count number of records in PushEvents subset
-    @task()
-    def count_push_events(df):
-        n_events = len(df)
-        print(n_events)
-        return n_events 
 
     # Call task functions in order
     start_date = "01-01-2015"
     end_date = "31-12-2015"
     files_to_fetch = create_list(start_date, end_date)
     dataframe = transform_github_data(files_to_fetch)
-    n_events = count_push_events(dataframe)
 
 # Call taskflow
 demo = json_to_parquet()
