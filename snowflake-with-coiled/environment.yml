@@ -1,0 +1,24 @@
+name: snowflake
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python==3.9.6
+  - coiled
+  - dask==2021.11.2
+  - distributed==2021.11.2
+  - snowflake-connector-python
+  - dask-snowflake
+  - jupyterlab
+  - pyarrow
+  - fastparquet
+  - dask-labextension
+  - ipykernel
+  - pandas==1.3.5
+  - xgboos
+  - ipython
+  - ipywidgets
+  - lz4
+
+
+conda install coiled dask==2021.11.2 distributed==2021.11.2 snowflake-connector-python dask-snowflake jupyterlab dask-labextension lz4 pyarrow fastparquet xgboost
