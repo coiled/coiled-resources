@@ -19,6 +19,3 @@ dependencies:
   - ipython
   - ipywidgets
   - lz4
-
-
-conda install coiled dask==2021.11.2 distributed==2021.11.2 snowflake-connector-python dask-snowflake jupyterlab dask-labextension lz4 pyarrow fastparquet xgboost
