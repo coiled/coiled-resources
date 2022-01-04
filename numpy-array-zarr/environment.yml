@@ -1,0 +1,23 @@
+name: numpy-zarr
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python==3.9.6
+  - dask==2021.11.1
+  - distributed==2021.11.1
+  - cloudpickle==2.0.0
+  - zarr
+  - pyarrow
+  - fastparquet
+  - jupyterlab
+  - dask-labextension
+  - ipykernel
+  - s3fs
+  - coiled
+  - numpy
+  - pandas
+  - ipython
+  - ipywidgets
+  - lz4
+
