@@ -4,11 +4,18 @@
 # Suppose you have some custom modules, named pipeline and external_fns, and want to use them on a coiled cluster.
 # And, further suppose that these are contained in folders within your current working directory for Python. 
 # 
-# These will work automatically with a Local.Cluster, as your system already knows to look for them in the current
-# active directory.  However, for these functions to work on a Coiled Cluster, the Dask workers need to know how to
-# find those modules.  
-# 
-# The following sample code shows how to do this.
+# These can be installed on workers in a dask scheduler by using the Built in Dask Distributed Nanny Plugin 
+# `UploadDirectory` (http://distributed.dask.org/en/stable/plugins.html). As part of that, it's important to 
+# ensure that the workers know where to find the modules.
+
+# In priciple, it should be possible to ensure that by using the kwarg `update_path=True`, but at present this 
+# seems to not be sufficient, at least when not working with at LocalCluster.  
+
+# For a LocalCluster, it appears that the system path pointing to the current working directory is sufficient for 
+# workers to be able to find the modules.  On a Coiled cluster, for now at least, it is necessary to programatically
+# ensure that the worker paths are updated.  
+
+# This notebook shows how to use the UploadDirectory Nanny Plugin, and to update worker paths.
 
 # Code based on input from Kelsey Skvoretz (https://github.com/skvorekn; 
 # https://github.com/skvorekn/repr-coiled-upl-dir) and 
