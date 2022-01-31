@@ -2,14 +2,15 @@ name: dask-mini-tutorial
 channels:
   - conda-forge
 dependencies:
-  - python=3.9.7
-  - dask=2021.08.1
-  # JupyterLab extensions
+  - python=3.9.6
+  - dask=2021.11.1
+  - distributed=2021.11.1
   - jupyterlab>=3
-  - dask-labextension=5.1.0
-  - ipywidgets=7.6.5
-  - graphviz=2.49.0
-  - python-graphviz=0.17
-  - scikit-learn=0.24.2
-  - dask-ml=1.9
-  - coiled
+  - dask-labextension
+  - ipywidgets
+  - graphviz
+  - python-graphviz
+  - scikit-learn
+  - dask-ml
+  - coiled=0.0.60
+  - s3fs
