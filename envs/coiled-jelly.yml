@@ -1,0 +1,22 @@
+name: coiled-jelly
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - pandas
+  - dask
+  - pyarrow
+  - fastparquet
+  - ipykernel
+  - s3fs
+  - coiled
+  - python-blosc
+  - lz4
+  - nb_conda
+  - jupyterlab
+  - dask-labextension
+  - jupyterlab_code_formatter
+  - isort
+  - black
+  - jellyfish
