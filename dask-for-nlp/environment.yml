@@ -9,6 +9,8 @@ dependencies:
   - dask[complete]==2022.02.0
   - nltk==3.6.5
   - spacy==3.2.0
+  - scipy
+  - scikit-learn
   - pyarrow
   - fastparquet
   - jupyterlab
