@@ -1,0 +1,19 @@
+{
+	"data": [{
+		"name": "george",
+		"age": 16,
+		"exam": {
+			"subject": "geometry",
+			"score": 56
+		}
+
+	}, {
+		"name": "nora",
+		"age": 7,
+		"exam": {
+			"subject": "geometry",
+			"score": 87
+		}
+
+	}]
+}
