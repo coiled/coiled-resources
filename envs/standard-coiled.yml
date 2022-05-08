@@ -21,3 +21,4 @@ dependencies:
   - black
   - pytables
   - h5py
+  - tabulate
