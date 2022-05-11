@@ -13,3 +13,6 @@ dependencies:
   - geoviews
   - fiona
   - dask-geopandas
+  - folium 
+  - matplotlib 
+  - mapclassify
