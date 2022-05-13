@@ -4,12 +4,6 @@ channels:
 dependencies:
   - python==3.9.7
   - coiled-runtime
-  - ujson==4.2.0
-  - dask-ml
-  - xgboost==1.5.0
-  - hvplot
-  - datashader
-  - spatialpandas
   - geoviews
   - fiona
   - dask-geopandas
