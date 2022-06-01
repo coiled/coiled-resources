@@ -1,9 +1,9 @@
-name: spatial-join
+name: coiledrun-spatialjoin
 channels:
   - conda-forge
 dependencies:
   - python==3.9.7
-  - coiled-runtime
+  - coiled-runtime==0.0.3
   - geoviews
   - fiona
   - dask-geopandas
