@@ -3,10 +3,32 @@ channels:
   - conda-forge
 dependencies:
   - python==3.9.7
-  - coiled-runtime==0.0.3
+  - coiled
+  - dask==2022.5.2
+  - distributed==2022.5.2
   - geoviews
   - fiona
   - dask-geopandas
   - folium 
   - matplotlib 
   - mapclassify
+  - nodejs
+  - nb_conda_kernels 
+  - fsspec 
+  - s3fs
+  - gcsfs
+  - pyarrow
+  - python-snappy 
+  - jupyterlab 
+  - dask-labextension 
+  - lz4 
+  - ipywidgets 
+  - numba 
+  - scikit-learn 
+  - python-graphviz 
+  - click 
+  - msgpack-python
+  - cloudpickle 
+  - tornado 
+  - toolz 
+  - zict
