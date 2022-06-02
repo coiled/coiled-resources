@@ -1,0 +1,12 @@
+name: cr-sjoin-latest-dask
+channels:
+  - conda-forge
+dependencies:
+  - python==3.9.7
+  - coiled-runtime==0.0.3
+  - geoviews
+  - fiona
+  - dask-geopandas
+  - folium 
+  - matplotlib 
+  - mapclassify
