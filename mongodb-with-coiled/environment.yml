@@ -1,4 +1,4 @@
-name: dask-mongo
+ name: dask-mongo
 channels:
   - defaults
   - conda-forge
