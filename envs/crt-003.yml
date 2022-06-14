@@ -1,18 +1,11 @@
-name: standard-coiled
+name: crt-003
 channels:
   - conda-forge
   - defaults
 dependencies:
   - python=3.9
-  - pandas
-  - dask=2022.01.1
-  - pyarrow
-  - fastparquet
+  - coiled-runtime=0.0.3
   - ipykernel
-  - s3fs
-  - coiled
-  - python-blosc
-  - lz4
   - nb_conda
   - jupyterlab
   - dask-labextension
@@ -23,3 +16,4 @@ dependencies:
   - h5py
   - tabulate
   - zarr
+
