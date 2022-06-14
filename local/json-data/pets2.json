@@ -1,0 +1,13 @@
+{
+	"data": [{
+		"name": "Gregg",
+		"species": "bird",
+		"color": "green"
+	}, {
+		"name": "Weston",
+		"species": "wolf",
+		"color": "gray"
+	}]
+}
+
+

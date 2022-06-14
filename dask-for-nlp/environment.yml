@@ -3,12 +3,14 @@ channels:
   - defaults
   - conda-forge
 dependencies:
-  - python==3.9
+  - python==3.9.7
   - coiled
-  - pandas==1.3.4
-  - dask[complete]==2021.11.1
+  - pandas==1.4.1
+  - dask[complete]==2022.02.0
   - nltk==3.6.5
   - spacy==3.2.0
+  - scipy
+  - scikit-learn
   - pyarrow
   - fastparquet
   - jupyterlab
@@ -16,7 +18,7 @@ dependencies:
   - ipykernel
   - s3fs==2021.11.0
   - lz4
-  - numpy==1.21.4
+  - numpy==1.21.5
   - ipython
   - ipywidgets
   - ujson==4.2.0
