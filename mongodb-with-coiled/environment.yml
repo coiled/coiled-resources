@@ -23,6 +23,7 @@ dependencies:
   - gensim[distributed]
   - dask-ml
   - xgboost==1.5.1
+  - cloudpickle==2.1.0
   - pip
   - pip:
     - pymongo[srv]
