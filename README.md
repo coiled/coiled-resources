@@ -7,18 +7,12 @@ Notebooks used in blogs and videos and open source datasets.
 You can install the dependencies on your local machine to run these notebooks by creating a conda environment:
 
 ```
-conda env create -f envs/crt-003.yml
+conda env create -f envs/standard-coiled.yml
 ```
 
-`crt` stands for [coiled-runtime](https://github.com/coiled/coiled-runtime), which pins a set of Dask runtime dependencies that are known to happily coexist.
-
-Activate the environment with `conda activate crt-003`.
+Activate the environment with `conda activate standard-coiled`.
 
 Open the project in your browser with `jupyter lab`.
-
-To create a the same software environment in your Coiled account, run this command: `coiled env create -n crt-003 --conda envs/crt-003.yml`.
-
-Here's how to create a cluster that uses the coiled-runtime software environment: `cluster = coiled.Cluster(name="powers-crt-003", software="crt-003", n_workers=5)`.
 
 ## Notebooks
 

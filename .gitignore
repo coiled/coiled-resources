@@ -1,6 +1,5 @@
 # Data files
 local/data/
-tmp/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -661,5 +660,3 @@ numpy-array-zarr/array_XS.zarr/.zarray
 numpy-array-zarr/array_XS.zarr/0.0
 *.csv
 *.parquet
-dask-for-nlp/Untitled.ipynb
-dask-for-nlp/Untitled1.ipynb

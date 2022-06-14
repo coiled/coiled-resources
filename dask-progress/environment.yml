@@ -1,0 +1,15 @@
+name: dask-progress
+channels:
+  - conda-forge
+  - default
+dependencies:
+  - python==3.9
+  - numpy
+  - pandas
+  - dask
+  - distributed
+  - coiled
+  - bokeh
+  - ipywidgets
+  - jupyterlab
+  - dask-labextension

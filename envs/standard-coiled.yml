@@ -5,7 +5,7 @@ channels:
 dependencies:
   - python=3.9
   - pandas
-  - dask=2022.01.1
+  - dask
   - pyarrow
   - fastparquet
   - ipykernel
@@ -19,7 +19,3 @@ dependencies:
   - jupyterlab_code_formatter
   - isort
   - black
-  - pytables
-  - h5py
-  - tabulate
-  - zarr
