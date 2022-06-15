@@ -1,6 +1,12 @@
 # coiled-resources
 
-Notebooks used in blogs and videos and open source datasets.
+Notebooks that support content like blogs and videos.
+
+## Repo organization
+
+This repo contains notebooks that are used in blogs and other content.  The notebooks are cleanly organized, so you can easily find the notebook that corresponds to a blog post.  For example, the `blogs/save-numpy-dask-array-to-zarr.ipynb` notebook corresponds with the coiled.io/blog/save-numpy-dask-array-to-zarr/ blog post.  Notice how the notebook name aligns with the blog post URL.
+
+The instructions for creating an environment to run each notebook are at the top of every notebook.  The following setup instruction will work for most of the notebooks.
 
 ## Setting up your machine
 
