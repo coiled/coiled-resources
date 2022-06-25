@@ -1,0 +1,19 @@
+name: crt-004
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - coiled-runtime=0.0.4
+  - ipykernel
+  - nb_conda
+  - jupyterlab
+  - dask-labextension
+  - jupyterlab_code_formatter
+  - isort
+  - black
+  - pytables
+  - h5py
+  - tabulate
+  - zarr
+
