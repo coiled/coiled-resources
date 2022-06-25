@@ -27,7 +27,11 @@ Activate the environment with `conda activate crt-004`.
 
 Open the project in your browser with `jupyter lab`.
 
-To create a the same software environment in your Coiled account, run this command: `coiled env create -n crt-004 --conda envs/crt-004.yml`.
+## Create Coiled software environments
+
+To a Coiled software environment that matches you local environment, run a command like this: `coiled env create -n crt-004 --conda envs/crt-004.yml`.
+
+Your Coiled sofware environment should always match your local environment exactly.
 
 Here's how to create a cluster that uses the coiled-runtime software environment: `cluster = coiled.Cluster(name="powers-crt-004", software="crt-004", n_workers=5)`.
 
