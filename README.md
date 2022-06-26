@@ -7,6 +7,14 @@ Notebooks that support content like blogs and videos.
 * Make it easy for you to reproduce any computations covered in blogs or videos
 * Show best practices for organizing a repo with hundreds of notebooks & tens of environments
 
+Here are some notable blog posts that are backed by notebooks in this repo:
+
+|Blog post   |Notebook link   |
+|---|---|
+|[Speed up pandas query 10x](https://coiled.io/blog/speed-up-pandas-query-10x-with-dask/)   | [Notebook](https://github.com/coiled/coiled-resources/blob/main/blogs/speed-up-pandas-query-10x-with-dask.ipynb)   |
+|[Convert Dask DataFrame to pandas DataFrame](https://coiled.io/blog/converting-a-dask-dataframe-to-a-pandas-dataframe/)   | Notebook  |
+|[Convert Parquet to CSV](https://coiled.io/blog/write-multiple-parquet-files-to-a-single-csv-using-python/)   | [Notebook](https://github.com/coiled/coiled-resources/blob/main/blogs/write-multiple-parquet-files-to-a-single-csv-using-python.ipynb)  |
+
 ## Repo organization
 
 This repo contains notebooks that are used in blogs and other content.  The notebooks are cleanly organized, so you can easily find the notebook that corresponds to a blog post.  For example, the `blogs/save-numpy-dask-array-to-zarr.ipynb` notebook corresponds with the [coiled.io/blog/save-numpy-dask-array-to-zarr/ blog post](https://coiled.io/blog/save-numpy-dask-array-to-zarr/).  Notice how the notebook name aligns with the blog post URL.
