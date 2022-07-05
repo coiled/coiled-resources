@@ -1,9 +1,10 @@
 name: xgboost-coiled
 channels:
-  - defaults
   - conda-forge
 dependencies:
-  - python==3.9.6
+  - python=3.9.6
   - coiled-runtime
-  - dask-ml
-  - xgboost>=1.5
+  - dask-ml=2022.5.27
+  - pip
+  - pip:
+      - xgboost==1.6.1
