@@ -1,12 +1,12 @@
-name: coiledrun-spatialjoin
+name: dask-geopandas
 channels:
   - conda-forge
 dependencies:
   - python==3.9.7
-  - coiled-runtime==0.0.3
+  - coiled-runtime==0.0.4
   - geoviews
   - fiona
-  - dask-geopandas
+  - dask-geopandas==0.2.0
   - folium 
   - matplotlib 
   - mapclassify
