@@ -68,7 +68,7 @@ def json_to_parquet():
             n_workers=20, 
             name="airflow-json",
             software="coiled-examples/airflow",
-            backend_options={'spot': 'True'},
+            backend_options={'spot': True},
         )
         client = Client(cluster)
         print("Dashboard:", client.dashboard_link)
