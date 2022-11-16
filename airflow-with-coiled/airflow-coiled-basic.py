@@ -47,7 +47,7 @@ def airflow_on_coiled():
             n_workers=20, 
             name="airflow-task",
             software="coiled-examples/airflow",
-            backend_options={'spot': 'True'},
+            backend_options={'spot': True},
         )
         client = Client(cluster)
         print("Dashboard:", client.dashboard_link)
