@@ -46,7 +46,6 @@ def airflow_on_coiled():
         cluster = coiled.Cluster(
             n_workers=20, 
             name="airflow-task",
-            software="coiled-examples/airflow",
             backend_options={'spot': True},
         )
         client = Client(cluster)
