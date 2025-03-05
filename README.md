@@ -1,3 +1,9 @@
+# This repository has moved, see [coiled/examples](https://github.com/coiled/examples)
+
+This repository is not actively maintained and has been archived. For up-to-date, runnable examples we recommend the [coiled/examples](https://github.com/coiled/examples) repo. There are also more examples in our [documentation](https://docs.coiled.io/user_guide/index.html?utm_source=github&utm_medium=coiled-resources) and [blog](https://docs.coiled.io/blog/index.html?utm_source=github&utm_medium=coiled-resources). 
+
+If there's a particular example you're looking for that you can't find, feel free to [open an issue](https://github.com/coiled/feedback).
+
 # coiled-resources
 
 Notebooks that support content like blogs and videos.
